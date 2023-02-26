@@ -64,6 +64,7 @@ const file: fileType[] = [
 
 ];
 
+// store profit that's been caculated
 let totalProfit: number = 0;
 
 
@@ -71,23 +72,25 @@ function calculate(file: fileType[]) {
     let btcInfo: fileType[] = [];
     let ethInfo: fileType[] = [];
 
-    //seperate coin names
+    //seperate btc and eth
     file.forEach( e => {
         if(e.coinName === "BTC") btcInfo.push(e);
         else if(e.coinName === "ETH") ethInfo.push(e);
     });
 
+    //get btc profit
     getProfit(btcInfo);
+    //get eth profit
     getProfit(ethInfo);
 
 }
 
-
+// caculator
 function getProfit(btcInfo: fileType[]) {
     let btcBuy: Buy[] = [];
     let btcSell: Sell[] = [];
 
-    //find profit
+    //split buy and sell 
     btcInfo.forEach( e => {
         if(e.status === true) {
             btcBuy.push(
@@ -108,6 +111,7 @@ function getProfit(btcInfo: fileType[]) {
         };
     })
 
+    // use 2 pointers to check each time we sell
     btcSell.forEach((e, index) => {
         if(!e.calculated) {
             let amountLeft = e.amount;
